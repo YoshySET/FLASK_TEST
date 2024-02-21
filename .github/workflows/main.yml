@@ -17,6 +17,6 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-         echo "${{ secrets.PRIVATE_KEY }}" > private_key
-         chmod 600 private_key
-         ssh -oStrictHostKeyChecking=no ${{ secrets.USER_NAME }}@${{ secrets.HOST_NAME }} -i private_key "cd /var/www/FLASK_TEST && git fetch --prune && git checkout main && git pull origin main"
+         sudo echo "${{ secrets.PRIVATE_KEY }}" > private_key
+         sudo chmod 600 private_key
+         sudo ssh -oStrictHostKeyChecking=no ${{ secrets.USER_NAME }}@${{ secrets.HOST_NAME }} -i private_key "cd /var/www/FLASK_TEST && git fetch --prune && git checkout main && git pull origin main"
