@@ -15,8 +15,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Deploy to EC2
-      run: |
-         sudo echo "${{ secrets.PRIVATE_KEY }}" > private_key
-         sudo chmod 600 private_key
-         sudo ssh -oStrictHostKeyChecking=no ${{ secrets.USER_NAME }}@${{ secrets.HOST_NAME }} -i private_key "cd /var/www/FLASK_TEST && git fetch --prune && git checkout main && git pull origin main"
+    - name: Save private key
+      run: echo "${{ secrets.PRIVATE_KEY }}" > deploy_key.pem && chmod 600 deploy_key.pem
+    
+    - name: SSH into EC2 and execute commands
+      run: ssh -i deploy_key.pem ec2-user@ec2-54-178-85-34.ap-northeast-1.compute.amazonaws.com "cd /var/www/FLASK_TEST && git fetch --prune && git checkout main && git pull origin main"
